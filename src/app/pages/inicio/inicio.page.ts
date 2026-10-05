@@ -1,12 +1,7 @@
-import { Component } from '@angular/core';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButton
-} from '@ionic/angular';
+import { Component, inject } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-inicio',
@@ -19,7 +14,12 @@ import { RouterLink } from '@angular/router';
     IonTitle,
     IonContent,
     IonButton,
+      IonButtons,
     RouterLink
+    
   ]
 })
-export class InicioPage {}
+
+export class InicioPage {
+  theme = inject(ThemeService);
+}

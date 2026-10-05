@@ -49,6 +49,12 @@ export class ProductosPage implements OnInit {
   total = 0;
   loading = false;
   error = '';
+pageSize = 10;
+currentPage = 1;
+
+get totalPages(): number {
+  return Math.ceil(this.total / this.pageSize);
+}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -59,7 +65,8 @@ export class ProductosPage implements OnInit {
     this.error = '';
     this.cdr.detectChanges();
 
-    this.productService.getProducts().subscribe({
+   const skip = (this.currentPage - 1) * this.pageSize;
+this.productService.getProducts(this.pageSize, skip).subscribe({
       next: (response: ProductsResponse) => {
         this.products = response.products;
         this.total = response.total;
@@ -81,4 +88,10 @@ export class ProductosPage implements OnInit {
     const descuentoAplicable = subtotal * (product.discountPercentage / 100);
     return subtotal - descuentoAplicable;
   }
+
+  goToPage(page: number): void {
+  if (page < 1 || page > this.totalPages) return;
+  this.currentPage = page;
+  this.loadProducts();
+}
 }
