@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -24,6 +25,8 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./productos.page.scss'],
   imports: [
     CurrencyPipe,
+    DecimalPipe,
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -70,5 +73,12 @@ export class ProductosPage implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  // Petición 2: total del stock valorado = unidades * precio - descuento aplicable
+  totalStockValorado(product: Product): number {
+    const subtotal = product.stock * product.price;
+    const descuentoAplicable = subtotal * (product.discountPercentage / 100);
+    return subtotal - descuentoAplicable;
   }
 }
