@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sobre nosotros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1>DAM2 Productos</h1>
+  <p>
+    Somos una pequeña empresa de desarrollo de aplicaciones móviles
+    multiplataforma, especializada en soluciones Ionic + Angular para
+    la gestión y presentación de catálogos de productos. Esta aplicación
+    es un proyecto académico realizado como práctica del módulo de
+    Desarrollo de Interfaces, dentro del ciclo de Desarrollo de
+    Aplicaciones Multiplataforma (DAM).
+  </p>
+
+  <p>
+    Puedes ver más proyectos en mi perfil de GitHub:
+  </p>
+
+  <a [href]="githubUrl" target="_blank" rel="noopener">{{ githubUrl }}</a>
+</ion-content>
