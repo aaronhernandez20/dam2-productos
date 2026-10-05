@@ -4,6 +4,11 @@
       <ion-back-button defaultHref="/inicio"></ion-back-button>
     </ion-buttons>
     <ion-title>Productos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="theme.toggle()">
+        {{ theme.dark ? '☀️ Modo claro' : '🌙 Modo oscuro' }}
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -35,44 +40,47 @@
       <strong>{{ total }}</strong> productos
     </p>
 
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Marca</th>
-            <th>Precio</th>
-            <th>Valoración</th>
-            <th>Stock</th>
-            <th>Ancho</th>
-            <th>Alto</th>
-            <th>Stock valorado</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (product of products; track product.id) {
-            <tr>
-              <td>{{ product.id }}</td>
-              <td>
-                <div class="product">
-                  <img [src]="product.thumbnail" [alt]="product.title">
-                  <span>{{ product.title }}</span>
-                </div>
-              </td>
-              <td>{{ product.category }}</td>
-              <td>{{ product.brand || 'Sin marca' }}</td>
-              <td>{{ product.price | currency:'EUR' }}</td>
-              <td>⭐ {{ product.rating }}</td>
-              <td>{{ product.stock }}</td>
-              <td>{{ product.dimensions.width | number:'1.1-1' }} cm</td>
-              <td>{{ product.dimensions.height | number:'1.1-1' }} cm</td>
-              <td>{{ totalStockValorado(product) | currency:'EUR' }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="cards-grid">
+      @for (product of products; track product.id) {
+        <ion-card class="product-card">
+          <div class="product-image">
+            <img [src]="product.thumbnail" [alt]="product.title">
+            @if (product.discountPercentage > 0) {
+              <span class="badge-discount">
+                -{{ product.discountPercentage | number:'1.0-0' }}%
+              </span>
+            }
+          </div>
+
+          <ion-card-header>
+            <ion-card-subtitle>{{ product.category }} · {{ product.brand || 'Sin marca' }}</ion-card-subtitle>
+            <ion-card-title>{{ product.title }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="price-row">
+              <span class="price">{{ product.price | currency:'EUR' }}</span>
+              <span class="rating">⭐ {{ product.rating }}</span>
+            </div>
+
+            <ul class="details">
+              <li><span>ID</span><strong>{{ product.id }}</strong></li>
+              <li><span>Stock</span><strong>{{ product.stock }} uds.</strong></li>
+              <li>
+                <span>Medidas</span>
+                <strong>
+                  {{ product.dimensions.width | number:'1.1-1' }} ×
+                  {{ product.dimensions.height | number:'1.1-1' }} cm
+                </strong>
+              </li>
+              <li>
+                <span>Stock valorado</span>
+                <strong>{{ totalStockValorado(product) | currency:'EUR' }}</strong>
+              </li>
+            </ul>
+          </ion-card-content>
+        </ion-card>
+      }
     </div>
 
     <div class="pagination">
